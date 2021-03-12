@@ -1,6 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
 
-
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
     router: {
         base: '/poc-touchain/'
@@ -66,7 +65,8 @@ export default {
      */
     plugins: [
         '@plugins/vuetify-toast',
-        'plugins/i18n.js'
+        'plugins/i18n.js',
+        'plugins/lowdb.js'
     ],
     /*
      ** Nuxt.js dev-modules

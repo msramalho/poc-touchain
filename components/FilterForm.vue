@@ -290,7 +290,10 @@ export default {
 
         this.loading = true;
         // Simulated ajax query
-        this.$axios
+        console.log(this)
+        const nodes = this.$db.get("nodes").value()
+        console.log(nodes)
+        /*this.$axios
           .get("/search", {
             params: {
               query: this.search
@@ -306,7 +309,7 @@ export default {
               timeout: 4000
             });
           })
-          .finally(() => (this.loading = false));
+          .finally(() => (this.loading = false));*/
       }, 300);
     },
     emit(functionName, param) {
