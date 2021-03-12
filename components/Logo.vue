@@ -1,8 +1,6 @@
 <template>
-  <div class="holder animate">
-    <v-icon color="white" class="animate-icon">mdi-graph-outline</v-icon>
-    <span class="animate-text">poc-touchain</span>
-    <span class="animate-text-final">esarquivo</span>
+  <div class="holder">
+    <span class="animate-text">Touchain</span>
   </div>
 </template>
 

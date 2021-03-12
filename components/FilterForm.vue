@@ -9,11 +9,10 @@
   >
     <v-container>
       <h3 class="text-center pt-2" absolute>
-        {{$t("filter_form.title")}}
-        <!-- <v-btn icon @click="showFullForm = !showFullForm"  right>
-          <v-icon>{{ showFullForm ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        </v-btn>-->
+        <!-- {{$t("filter_form.title")}} -->
+        Welcome to Touchain 🥂
       </h3>
+      <p>Brief description</p>
       <v-row>
         <v-col>
           <v-autocomplete
@@ -62,69 +61,7 @@
           </v-autocomplete>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col class="py-0 mt-3">
-          <div
-            class="text-center body-2"
-          >{{$t("filter_form.expand.title")}} {{!(limit >= labels.length - 1)?` ${$t("basic.as")} ${labels[limit]} ${$t("filter_form.expand.most")}`:$t("filter_form.expand.all")}}</div>
-          <v-slider
-            v-model="limit"
-            :tick-labels="labels"
-            :max="labels.length - 1"
-            step="1"
-            ticks="always"
-            tick-size="4"
-          ></v-slider>
-        </v-col>
-      </v-row>
-      <div
-        class="text-center body-2 mt-3"
-      >{{$t("filter_form.expand.and_search")}} {{searchLabels.length}} {{searchLabels.length==1?$t("filter_form.expand.singular"):$t("filter_form.expand.plural")}}</div>
-      <v-row justify="space-around" class="mx-2 py-0">
-        <v-checkbox
-          v-model="searchLabels"
-          color="#009688"
-          :label="$t('filter_form.types.people')"
-          value="PER"
-          class="mt-1"
-        ></v-checkbox>
-        <v-checkbox
-          v-model="searchLabels"
-          color="#673AB7"
-          :label="$t('filter_form.types.orgs')"
-          value="ORG"
-          class="mt-1"
-        ></v-checkbox>
-        <v-checkbox
-          v-model="searchLabels"
-          color="#00B8D4"
-          :label="$t('filter_form.types.places')"
-          value="LOC"
-          class="mt-1"
-        ></v-checkbox>
-        <v-checkbox
-          v-model="searchLabels"
-          color="#263238"
-          :label="$t('filter_form.types.others')"
-          value="MISC"
-          class="mt-1"
-        ></v-checkbox>
-      </v-row>
-      <v-row>
-        <v-col>
-          <div
-            class="text-center body-2"
-          >{{$t("filter_form.connections")}} {{weightRange[0]}}% {{$t("basic.and")}} {{weightRange[1]}}%</div>
-          <v-range-slider
-            v-model="weightRange"
-            hide-details
-            class="align-center"
-            min="0"
-            max="100"
-            step="1"
-          ></v-range-slider>
-        </v-col>
-      </v-row>
+      
       <div class="text-center body-2 mb-2">{{$t("filter_form.arrangement.title")}}</div>
       <v-row justify="space-around">
         <v-btn

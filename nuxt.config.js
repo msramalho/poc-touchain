@@ -100,8 +100,8 @@ export default {
         theme: {
             themes: {
                 light: {
-                    primary: colors.teal.base,
-                    accent: colors.teal.accent1,
+                    primary: colors.blue.base,
+                    accent: colors.yellow.accent1,
                     secondary: colors.deepPurple.base
                 }
             }

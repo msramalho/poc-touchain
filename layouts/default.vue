@@ -5,7 +5,7 @@
         <logo />
       </a>
       <v-spacer />
-      <examples />
+      <!-- <examples /> -->
       <instructions />
       <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
@@ -22,7 +22,7 @@
         <span>{{ $t('default.source_code') }}</span>
       </v-tooltip>
 
-      <v-tooltip left>
+      <!-- <v-tooltip left>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             icon
@@ -33,7 +33,7 @@
           >{{lang == "pt" ? "en" : "pt"}}</v-btn>
         </template>
         <span>{{ $t('default.change_lang') }}</span>
-      </v-tooltip>
+      </v-tooltip> -->
     </v-app-bar>
     <v-content>
       <v-container class="pa-0 flex-grow-1" fluid fill-height>
