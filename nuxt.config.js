@@ -66,7 +66,7 @@ export default {
     plugins: [
         '@plugins/vuetify-toast',
         'plugins/i18n.js',
-        'plugins/lowdb.js'
+        'plugins/db.js'
     ],
     /*
      ** Nuxt.js dev-modules

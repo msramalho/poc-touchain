@@ -310,32 +310,11 @@ export default {
 
         this.loading = true;
         // Simulated ajax query
-        console.log(this);
-        //this.$db.get("nodes").push({ id: "coco" }).write()
-        //const nodes = this.$db.get("nodes").value()
-
         const nodes = _.get(this.$db, "nodes");
         this.items = nodes;
         this.loading = false;
 
         console.log(nodes);
-        /*this.
-          .get("/search", {
-            params: {
-              query: this.search
-            }
-          })
-          .then(res => {
-            this.items = res.data.results;
-          })
-          .catch(e => {
-            this.$toast.error(this.$t("filter_form.errors.communication"), {
-              x: "right",
-              y: "bottom",
-              timeout: 4000
-            });
-          })
-          .finally(() => (this.loading = false));*/
       }, 300);
     },
     emit(functionName, param) {
