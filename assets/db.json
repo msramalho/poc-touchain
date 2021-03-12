@@ -1,9 +1,0 @@
-{
-    "nodes": [
-        { "id": "afonso", "name": "Afonso Ramos", "label": "Person" },
-        { "id": "antonio", "name": "Antonio Almeida", "label": "Person" }
-    ],
-    "edges": [
-        { "from": "afonso", "to": "antonio", "text": "friends" }
-    ]
-}

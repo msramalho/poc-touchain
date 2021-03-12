@@ -1,7 +1,10 @@
 
-import low from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
+//import low from 'lowdb'
+//import FileSync from 'lowdb/adapters/LocalStorage'
+import db from '../static/db.json'
 export default ({ app }, inject) => {
-    const adapter = new FileSync('./assets/db.json')
-    app.db = low(adapter)
+    //const adapter = new FileSync('../static/db.json')
+    //const db = low(adapter)
+
+    inject('db', db)
   }
