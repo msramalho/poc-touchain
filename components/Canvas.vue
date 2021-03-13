@@ -187,11 +187,11 @@ export default {
         })
         .catch((e) => {
           console.log(e);
-          this.$toast.error(this.$t("canvas.errors.communication"), {
-            x: "right",
-            y: "bottom",
-            timeout: 4000,
-          });
+          // this.$toast.error(this.$t("canvas.errors.communication"), {
+          //   x: "right",
+          //   y: "bottom",
+          //   timeout: 4000,
+          // });
         })
         .finally(() => {
           this.loading = false;
@@ -226,17 +226,17 @@ export default {
             this.cy.$id(`${e_from.id()},${e_to.id()}`).show();
             this.refreshEdgeWeight();
           }
-          this.$toast.info(message, { x: "right", y: "bottom", timeout: 4000 });
+          // this.$toast.info(message, { x: "right", y: "bottom", timeout: 4000 });
           e_from.unselect();
           e_to.unselect();
         })
         .catch((e) => {
           console.log(e);
-          this.$toast.error(this.$t("canvas.errors.communication"), {
-            x: "right",
-            y: "bottom",
-            timeout: 4000,
-          });
+          // this.$toast.error(this.$t("canvas.errors.communication"), {
+          //   x: "right",
+          //   y: "bottom",
+          //   timeout: 4000,
+          // });
         })
         .finally(() => {
           this.loading = false;
@@ -487,11 +487,11 @@ export default {
     addNode(e) {
       let current = this.cy.$id(e.data.id);
       if (current.length) {
-        this.$toast.info(this.$t("canvas.errors.repeated_entity"), {
-          x: "right",
-          y: "bottom",
-          timeout: 4000,
-        });
+        // this.$toast.info(this.$t("canvas.errors.repeated_entity"), {
+        //   x: "right",
+        //   y: "bottom",
+        //   timeout: 4000,
+        // });
         current.show(); //in case it is hidden
         this.focusOnNode(current);
         return;

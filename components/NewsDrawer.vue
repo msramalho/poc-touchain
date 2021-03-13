@@ -274,11 +274,11 @@ export default {
           }
         })
         .catch(e => {
-          this.$toast.error(this.$t("news.errors.communication"), {
-            x: "right",
-            y: "bottom",
-            timeout: 4000
-          });
+          // this.$toast.error(this.$t("news.errors.communication"), {
+          //   x: "right",
+          //   y: "bottom",
+          //   timeout: 4000
+          // });
         })
         .finally(() => (this.loadingIds = false));
     },
@@ -312,11 +312,11 @@ export default {
           this.page += 1;
         })
         .catch(e => {
-          this.$toast.error(this.$t("news.errors.communication_ask"), {
-            x: "right",
-            y: "bottom",
-            timeout: 4000
-          });
+          // this.$toast.error(this.$t("news.errors.communication_ask"), {
+          //   x: "right",
+          //   y: "bottom",
+          //   timeout: 4000
+          // });
         })
         .finally(() => (this.loading = false));
     },

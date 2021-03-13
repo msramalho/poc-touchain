@@ -75,7 +75,7 @@
         </v-col>
       </v-row>
 
-      <div class="text-center body-2 mb-2">
+      <div class="text-center body-2 ma-5">
         {{ $t("filter_form.arrangement.title") }}
       </div>
       <v-row justify="space-around">
@@ -95,7 +95,7 @@
           $t("filter_form.arrangement.breadth")
         }}</v-btn>
       </v-row>
-      <div class="text-center body-2 mt-5">
+      <div class="text-center body-2 mt-7 mb-3">
         {{ $t("filter_form.other_actions.title") }}
       </div>
       <v-row>
