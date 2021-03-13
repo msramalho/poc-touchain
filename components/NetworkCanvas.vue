@@ -90,9 +90,10 @@ export default {
             "line-color": "#2a5898",
             "edge-text-rotation": "autorotate",
             "control-point-step-size": 40,
-            width: function(edge) {
-              return Math.min(Math.max(edge.data().weight / 5, 1), 6);
-            }
+            "width": 1
+            // width: function(edge) {
+            //   return Math.min(Math.max(edge.data().weight / 5, 1), 6);
+            // }
           }
         },
         {
@@ -104,7 +105,8 @@ export default {
         {
           selector: "edge:selected, edge.selectedEdge",
           style: {
-            "line-color": "#FB8C00"
+            "line-color": "#2a5898",
+            "width": 3
           }
         },
         {

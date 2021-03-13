@@ -34,7 +34,8 @@ import FilterForm from "~/components/FilterForm.vue";
 import NetworkCanvas from "~/components/NetworkCanvas.vue";
 import NewsDrawer from "~/components/NewsDrawer.vue";
 import { saveAs } from "file-saver";
-import { filter, find } from "lodash";
+import { filter, find, keyBy, merge } from "lodash";
+import _ from "lodash";
 
 export default {
   data() {
@@ -140,107 +141,136 @@ export default {
       let e_from = selNodes[0],
         e_to = selNodes[1];
       this.loading = true;
-      this.$axios
-        .get("/connections", {
-          params: {
-            from: e_from.id(),
-            to: e_to.id(),
-            limit: this.limit,
-            labels: this.selectedLabels.join(),
-          },
-        })
-        .then((res) => {
-          let nodes = res.data.connections.map((n) => this.entityToNode(n));
-          let edges = res.data.connections.reduce((acc, r) => {
-            return acc.concat([
-              this.connectionToEdge({
-                from: e_from.id(),
-                to: r._id,
-                weight: r.from,
-              }),
-              this.connectionToEdge({
-                from: r._id,
-                to: e_to.id(),
-                weight: r.to,
-              }),
-            ]);
-          }, []);
-          this.cy.startBatch();
-          {
-            //mark as explored before filtering
-            e_from.unselect();
-            e_to.unselect();
-            e_from.data("explored", true);
-            e_to.data("explored", true);
-            //add nodes and edges to graph
-            this.cy.nodes().lock();
-            this.cy.add(nodes);
-            this.cy.add(edges);
 
-            this.refreshEdgeWeight();
-            //reload and filter before running layout for performance
-            this.updateFilterRange(); //calls filterEntities after
-          }
-          this.cy.endBatch();
-          this.runLayout("cose", false);
-          this.cy.nodes().unlock();
+      // console.log(e_from.id(), e_to.id());
+
+      let edgesFromIds = filter(
+        this.$db["edges"],
+        (o) => o.from == e_from.id() || o.to == e_from.id()
+      ).map((o) => {
+        return { _id: o.from == e_from.id() ? o.to : o.from };
+      });
+
+      let edgesToIds = filter(
+        this.$db["edges"],
+        (o) => o.from == e_to.id() || o.to == e_to.id()
+      ).map((o) => {
+        return { _id: o.from == e_to.id() ? o.to : o.from };
+      });
+
+      // console.log(edgesFromIds);
+      // console.log(edgesToIds);
+
+      let merged = edgesFromIds.concat(edgesToIds);
+      // console.log(merged);
+      let newEdges = [];
+      merged.forEach((x) => {
+        newEdges.push({ from: e_from.id(), to: x._id });
+        newEdges.push({ from: x._id, to: e_to.id() });
+      });
+
+      // console.log(newEdges);
+
+      let nodes = merged
+        .map((e) => this.findNode(e._id))
+        .map((r) => this.entityToNode(r));
+
+      // console.log(nodes);
+      let edges = newEdges.map((e) =>
+        this.connectionToEdge({
+          from: e.from,
+          to: e.to,
+          weight: 1,
         })
-        .catch((e) => {
-          console.log(e);
-          // this.$toast.error(this.$t("canvas.errors.communication"), {
-          //   x: "right",
-          //   y: "bottom",
-          //   timeout: 4000,
-          // });
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      );
+
+      this.cy.startBatch();
+      {
+        //mark as explored before filtering
+        e_from.unselect();
+        e_to.unselect();
+        e_from.data("explored", true);
+        e_to.data("explored", true);
+        //add nodes and edges to graph
+        this.cy.nodes().lock();
+        this.cy.add(nodes);
+        this.cy.add(edges);
+
+        this.refreshEdgeWeight();
+        //reload and filter before running layout for performance
+        this.updateFilterRange(); //calls filterEntities after
+      }
+      this.cy.endBatch();
+      this.runLayout("cose", false);
+      this.cy.nodes().unlock();
+
+      // console.log(edges);
+
+      this.loading = false;
     },
     connectSelectedSingle() {
-      //uncover all connections between two entities
+      //uncover direct connection between two entities
       if (this.loading) return;
       let selNodes = this.cy.$("node:selected");
       if (selNodes.length != 2) return;
       let e_from = selNodes[0],
         e_to = selNodes[1];
       this.loading = true;
-      this.$axios
-        .get("/connection", { params: { from: e_from.id(), to: e_to.id() } })
-        .then((res) => {
-          let weight = res.data.weight;
-          let message = `${this.$t("canvas.no_direct_link")} ${
-            e_from.data().text
-          } ${this.$t("canvas.basic.and")} ${e_to.data().text}`;
-          if (weight > 0) {
-            message = `${this.$t("canvas.connection_found")} ${weight}`;
-            try {
-              this.cy.add(
-                this.connectionToEdge({
-                  from: e_from.id(),
-                  to: e_to.id(),
-                  weight,
-                })
-              );
-            } catch (error) {}
-            this.cy.$id(`${e_from.id()},${e_to.id()}`).show();
-            this.refreshEdgeWeight();
-          }
-          // this.$toast.info(message, { x: "right", y: "bottom", timeout: 4000 });
-          e_from.unselect();
-          e_to.unselect();
-        })
-        .catch((e) => {
-          console.log(e);
-          // this.$toast.error(this.$t("canvas.errors.communication"), {
-          //   x: "right",
-          //   y: "bottom",
-          //   timeout: 4000,
-          // });
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+
+      let edge = find(
+        this.$db["edges"],
+        (o) =>
+          (o.from == e_from.id() && o.to == e_to.id()) ||
+          (o.from == e_to.id() && o.to == e_from.id())
+      );
+
+      if (edge != undefined) {
+        this.cy.add(
+          this.connectionToEdge({
+            from: e_from.id(),
+            to: e_to.id(),
+            weight: 1,
+          })
+        );
+      }
+      this.loading = false;
+
+      // this.$axios
+      //   .get("/connection", { params: { from: e_from.id(), to: e_to.id() } })
+      //   .then((res) => {
+      //     let weight = res.data.weight;
+      //     let message = `${this.$t("canvas.no_direct_link")} ${
+      //       e_from.data().text
+      //     } ${this.$t("canvas.basic.and")} ${e_to.data().text}`;
+      //     if (weight > 0) {
+      //       message = `${this.$t("canvas.connection_found")} ${weight}`;
+      //       try {
+      //         this.cy.add(
+      //           this.connectionToEdge({
+      //             from: e_from.id(),
+      //             to: e_to.id(),
+      //             weight,
+      //           })
+      //         );
+      //       } catch (error) {}
+      //       this.cy.$id(`${e_from.id()},${e_to.id()}`).show();
+      //       this.refreshEdgeWeight();
+      //     }
+      //     // this.$toast.info(message, { x: "right", y: "bottom", timeout: 4000 });
+      //     e_from.unselect();
+      //     e_to.unselect();
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //     // this.$toast.error(this.$t("canvas.errors.communication"), {
+      //     //   x: "right",
+      //     //   y: "bottom",
+      //     //   timeout: 4000,
+      //     // });
+      //   })
+      //   .finally(() => {
+      //     this.loading = false;
+      //   });
     },
     intersectSelected() {
       let sn = this.cy.$("node:selected");
