@@ -42,9 +42,9 @@
               <v-icon color="primary">$expand</v-icon>
             </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content class="ma-2 mt-5 body-2">
+          <v-expansion-panel-content class="ma-2 mt-5 body-2 text-justify">
             <span
-              class="lide text--secondary mr-10 text-right"
+              class="lide text--secondary mr-10 text-center"
               v-html="$t('instructions.expansion_instructions.content')"
             ></span>
           </v-expansion-panel-content>
@@ -60,9 +60,9 @@
               <v-icon color="primary">$expand</v-icon>
             </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content class="ma-2 mt-5 body-2 text-justify">
             <span
-              class="lide text--secondary mr-10 text-right"
+              class="lide text--secondary mr-10 text-center"
               v-html="$t('instructions.expansion_about.content')"
             ></span>
           </v-expansion-panel-content>
@@ -78,10 +78,10 @@
               <v-icon color="primary">$expand</v-icon>
             </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content class="ma-2 mt-5 body-2">
+          <v-expansion-panel-content class="ma-2 mt-5 body-2 text-justify">
             <span
-              class="lide text--secondary mr-10 text-right"
-              v-html="$t('instructions.expansion_about.question')"
+              class="lide text--secondary mr-10 text-center"
+              v-html="$t('instructions.expansion_context.content')"
             ></span>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -96,9 +96,9 @@
               <v-icon color="primary">$expand</v-icon>
             </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content class="ma-2 mt-5 body-2">
+          <v-expansion-panel-content class="ma-2 mt-5 body-2 text-justify">
             <span
-              class="lide text--secondary mr-10 text-right"
+              class="lide text--secondary mr-10 text-center"
               v-html="$t('instructions.expansion_author.content')"
             ></span>
           </v-expansion-panel-content>
@@ -113,7 +113,7 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content class="ma-2 mt-5 body-2">
             <span
-              class="lide text--secondary mr-10 text-right"
+              class="lide text--secondary mr-10 text-center"
               v-html="$t('instructions.expansion_open_source.content')"
             ></span>
           </v-expansion-panel-content>
