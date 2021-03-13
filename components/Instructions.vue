@@ -121,7 +121,7 @@ ul > li > ul > li {
   font-size: 0.8em;
 }
 .v-expansion-panel-header.v-expansion-panel-header--active {
-  background-color: #ffcc00;
+  background-color: var(--v-primary-base);
   color: white;
   font-size: 1.2em;
 }
