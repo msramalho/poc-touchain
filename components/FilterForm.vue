@@ -27,6 +27,7 @@
             :items="items"
             :search-input.sync="search"
             :filter="() => true"
+            item-value="_id"
             DONT-cache-items
             hide-details
             hide-no-data
@@ -257,7 +258,7 @@
 </style>
 
 <script>
-import _ from "lodash";
+import Fuse from "fuse.js";
 export default {
   props: {
     countSelectedNodes: Number,
@@ -282,6 +283,7 @@ export default {
     search(val) {
       val &&
         val !== this.select &&
+        // Start search only after 2 characters
         val.length >= 2 &&
         this.querySelections(val);
     },
@@ -307,14 +309,20 @@ export default {
         if (v != this.search) return;
         if (this.select && this.select.text == this.search) return;
         if (this.loading) return;
-
         this.loading = true;
         // Simulated ajax query
-        const nodes = _.get(this.$db, "nodes");
-        this.items = nodes;
+        const nodes = this.$db["nodes"];
         this.loading = false;
 
-        console.log(nodes);
+        const fuse = new Fuse(nodes, {
+          includeScore: true,
+          keys: ["text", "_id"],
+        });
+
+        this.items = fuse
+          .search(v)
+          .slice(0, 10)
+          .map((searchResult) => searchResult.item);
       }, 300);
     },
     emit(functionName, param) {
