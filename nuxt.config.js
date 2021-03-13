@@ -1,6 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
-
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
     router: {
         base: '/poc-touchain/'
@@ -66,7 +63,8 @@ export default {
      */
     plugins: [
         '@plugins/vuetify-toast',
-        'plugins/i18n.js'
+        'plugins/i18n.js',
+        'plugins/db.js'
     ],
     /*
      ** Nuxt.js dev-modules
@@ -98,11 +96,14 @@ export default {
     vuetify: {
         customVariables: ['~/assets/variables.scss'],
         theme: {
+            options: {
+                customProperties: true,
+            },
             themes: {
                 light: {
-                    primary: colors.blue.base,
-                    accent: colors.yellow.accent1,
-                    secondary: colors.deepPurple.base
+                    primary: "#1a2634",
+                    accent: "#203e5f",
+                    secondary: "#203e5f"
                 }
             }
         }

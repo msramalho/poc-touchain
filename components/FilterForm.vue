@@ -3,7 +3,7 @@
     max-width="500px"
     fixed
     raised
-    :style="{position:'absolute', opacity:0.92}"
+    :style="{ position: 'absolute', opacity: 0.92 }"
     class="ma-6"
     :loading="loadingCard"
   >
@@ -26,7 +26,8 @@
             :loading="loading"
             :items="items"
             :search-input.sync="search"
-            :filter="()=>true"
+            :filter="() => true"
+            item-value="_id"
             DONT-cache-items
             hide-details
             hide-no-data
@@ -37,7 +38,9 @@
           >
             <template v-slot:no-data>
               <v-list-item>
-                <v-list-item-title>{{$t("filter_form.nothing_to_show")}}</v-list-item-title>
+                <v-list-item-title>{{
+                  $t("filter_form.nothing_to_show")
+                }}</v-list-item-title>
               </v-list-item>
             </template>
 
@@ -47,13 +50,23 @@
               </template>
               <template v-else>
                 <v-list-item-content>
-                  <v-list-item-title v-html="data.item.text"></v-list-item-title>
+                  <v-list-item-title
+                    v-html="data.item.text"
+                  ></v-list-item-title>
                   <v-list-item-subtitle class="text-small">
-                    <v-icon small v-if="data.item.label=='PER'">mdi-account-outline</v-icon>
-                    <v-icon small v-else-if="data.item.label=='ORG'">mdi-office-building</v-icon>
-                    <v-icon small v-else-if="data.item.label=='LOC'">mdi-map-marker</v-icon>
-                    <v-icon small v-else-if="data.item.label=='MISC'">mdi-dots-horizontal</v-icon>
-                    {{data.item.label_pt}}
+                    <v-icon small v-if="data.item.label == 'PER'"
+                      >mdi-account-outline</v-icon
+                    >
+                    <v-icon small v-else-if="data.item.label == 'ORG'"
+                      >mdi-office-building</v-icon
+                    >
+                    <v-icon small v-else-if="data.item.label == 'LOC'"
+                      >mdi-map-marker</v-icon
+                    >
+                    <v-icon small v-else-if="data.item.label == 'MISC'"
+                      >mdi-dots-horizontal</v-icon
+                    >
+                    {{ data.item.label_pt }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </template>
@@ -61,31 +74,30 @@
           </v-autocomplete>
         </v-col>
       </v-row>
-      
-      <div class="text-center body-2 mb-2">{{$t("filter_form.arrangement.title")}}</div>
+
+      <div class="text-center body-2 mb-2">
+        {{ $t("filter_form.arrangement.title") }}
+      </div>
       <v-row justify="space-around">
-        <v-btn
-          small
-          color="primary"
-          v-on:click="emit('runLayout', 'cose')"
-        >{{$t("filter_form.arrangement.spaced")}}</v-btn>
-        <v-btn
-          small
-          color="primary"
-          v-on:click="emit('runLayout', 'fCose')"
-        >{{$t("filter_form.arrangement.radial")}}</v-btn>
+        <v-btn small color="primary" v-on:click="emit('runLayout', 'cose')">{{
+          $t("filter_form.arrangement.spaced")
+        }}</v-btn>
+        <v-btn small color="primary" v-on:click="emit('runLayout', 'fCose')">{{
+          $t("filter_form.arrangement.radial")
+        }}</v-btn>
         <v-btn
           small
           color="primary"
           v-on:click="emit('runLayout', 'concentric')"
-        >{{$t("filter_form.arrangement.concentric")}}</v-btn>
-        <v-btn
-          small
-          color="primary"
-          v-on:click="emit('runLayout', 'bfs')"
-        >{{$t("filter_form.arrangement.breadth")}}</v-btn>
+          >{{ $t("filter_form.arrangement.concentric") }}</v-btn
+        >
+        <v-btn small color="primary" v-on:click="emit('runLayout', 'bfs')">{{
+          $t("filter_form.arrangement.breadth")
+        }}</v-btn>
       </v-row>
-      <div class="text-center body-2 mt-5">{{$t("filter_form.other_actions.title")}}</div>
+      <div class="text-center body-2 mt-5">
+        {{ $t("filter_form.other_actions.title") }}
+      </div>
       <v-row>
         <v-col class="py-0">
           <div class="text-center">
@@ -118,7 +130,7 @@
                   <v-icon>mdi-download</v-icon>
                 </v-btn>
               </template>
-              <span>{{$t("filter_form.other_actions.capture")}}</span>
+              <span>{{ $t("filter_form.other_actions.capture") }}</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -134,7 +146,7 @@
                   <v-icon>mdi-select-inverse</v-icon>
                 </v-btn>
               </template>
-              <span>{{$t("filter_form.other_actions.invert")}}</span>
+              <span>{{ $t("filter_form.other_actions.invert") }}</span>
             </v-tooltip>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-tooltip bottom>
@@ -146,12 +158,12 @@
                   color="blue lighten-2"
                   v-on:click="emit('expandSelected')"
                   v-on="on"
-                  :disabled="countSelectedNodes!=1"
+                  :disabled="countSelectedNodes != 1"
                 >
                   <v-icon>mdi-arrow-expand-all</v-icon>
                 </v-btn>
               </template>
-              <span>{{$t("filter_form.other_actions.expand_node")}}</span>
+              <span>{{ $t("filter_form.other_actions.expand_node") }}</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -162,12 +174,12 @@
                   icon
                   v-on="on"
                   color="cyan"
-                  :disabled="countSelectedNodes<2"
+                  :disabled="countSelectedNodes < 2"
                 >
                   <v-icon>mdi-set-center</v-icon>
                 </v-btn>
               </template>
-              <span>{{$t("filter_form.other_actions.keep_selected")}}</span>
+              <span>{{ $t("filter_form.other_actions.keep_selected") }}</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -178,12 +190,12 @@
                   icon
                   v-on="on"
                   color="orange"
-                  :disabled="countSelectedNodes!=2"
+                  :disabled="countSelectedNodes != 2"
                 >
                   <v-icon>mdi-handshake</v-icon>
                 </v-btn>
               </template>
-              <span>{{$t("filter_form.other_actions.direct_link")}}</span>
+              <span>{{ $t("filter_form.other_actions.direct_link") }}</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -194,13 +206,13 @@
                   icon
                   v-on="on"
                   color="orange darken-2"
-                  :disabled="countSelectedNodes!=2"
+                  :disabled="countSelectedNodes != 2"
                 >
                   <!-- <v-icon>mdi-google-circles-extended</v-icon> -->
                   <v-icon>mdi-transit-connection</v-icon>
                 </v-btn>
               </template>
-              <span>{{$t("filter_form.other_actions.common_links")}}</span>
+              <span>{{ $t("filter_form.other_actions.common_links") }}</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -211,12 +223,20 @@
                   text
                   icon
                   v-on="on"
-                  :disabled="countSelectedNodes==0"
+                  :disabled="countSelectedNodes == 0"
                 >
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </template>
-              <span>{{$t("filter_form.other_actions.delete.pre")}} {{countSelectedNodes}} {{countSelectedNodes==1?$t("filter_form.other_actions.delete.singular"):$t("filter_form.other_actions.delete.plural")}}</span>
+              <span
+                >{{ $t("filter_form.other_actions.delete.pre") }}
+                {{ countSelectedNodes }}
+                {{
+                  countSelectedNodes == 1
+                    ? $t("filter_form.other_actions.delete.singular")
+                    : $t("filter_form.other_actions.delete.plural")
+                }}</span
+              >
             </v-tooltip>
           </div>
         </v-col>
@@ -238,11 +258,12 @@
 </style>
 
 <script>
+import Fuse from "fuse.js";
 export default {
   props: {
     countSelectedNodes: Number,
     countSelectedEdges: Number,
-    loadingCard: Boolean
+    loadingCard: Boolean,
   },
   data() {
     return {
@@ -255,13 +276,14 @@ export default {
       searchLabels: ["PER", "ORG", "LOC", "MISC"],
       weightLabels: ["0", "", "", "", "", "", "", "", "", "", "100%"],
       weightRange: [0, 100],
-      showFullForm: true
+      showFullForm: true,
     };
   },
   watch: {
     search(val) {
       val &&
         val !== this.select &&
+        // Start search only after 2 characters
         val.length >= 2 &&
         this.querySelections(val);
     },
@@ -278,7 +300,7 @@ export default {
     },
     weightRange(range) {
       this.$emit("updateFilterRange", { min: range[0], max: range[1] });
-    }
+    },
   },
   methods: {
     querySelections(v) {
@@ -287,26 +309,20 @@ export default {
         if (v != this.search) return;
         if (this.select && this.select.text == this.search) return;
         if (this.loading) return;
-
         this.loading = true;
         // Simulated ajax query
-        this.$axios
-          .get("/search", {
-            params: {
-              query: this.search
-            }
-          })
-          .then(res => {
-            this.items = res.data.results;
-          })
-          .catch(e => {
-            this.$toast.error(this.$t("filter_form.errors.communication"), {
-              x: "right",
-              y: "bottom",
-              timeout: 4000
-            });
-          })
-          .finally(() => (this.loading = false));
+        const nodes = this.$db["nodes"];
+        this.loading = false;
+
+        const fuse = new Fuse(nodes, {
+          includeScore: true,
+          keys: ["text", "_id"],
+        });
+
+        this.items = fuse
+          .search(v)
+          .slice(0, 10)
+          .map((searchResult) => searchResult.item);
       }, 300);
     },
     emit(functionName, param) {
@@ -317,13 +333,13 @@ export default {
         e.preventDefault();
         this.$refs.searchBox.focus();
       }
-    }
+    },
   },
-  created: function() {
+  created: function () {
     window.addEventListener("keydown", this.keydown);
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     window.removeEventListener("keydown", this.keydown);
-  }
+  },
 };
 </script>

@@ -1,0 +1,12 @@
+{
+    "nodes": 
+        [
+            {"_id":"pedro-passos-coelho","label":"PER","label_pt":"Pessoa","text":"Pedro Passos Coelho"},
+            {"_id":"antonio","label":"PER","label_pt":"Pessoa","text":"Antonio Almeida"},
+            {"_id":"afonso-ramos","label":"PER","label_pt":"Pessoa","text":"Afonso Ramos"}
+        ]
+    ,
+    "edges": [
+        { "from": "afonso", "to": "antonio", "text": "friends" }
+    ]
+}

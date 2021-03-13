@@ -22,9 +22,11 @@
         "cytoscape-cose-bilkent": "^4.1.0",
         "cytoscape-fcose": "^1.2.3",
         "file-saver": "^2.0.2",
+        "fuse.js": "^6.4.6",
         "jquery": "^3.5.1",
         "localforage": "^1.9.0",
         "localforage-memoryStorageDriver": "^0.9.2",
+        "lodash": "^4.17.21",
         "nuxt": "^2.14.3",
         "vue-i18n": "^8.21.0",
         "vuetify-toast-snackbar": "^0.6.1"
@@ -32,5 +34,8 @@
     "devDependencies": {
         "@nuxtjs/vuetify": "^1.11.2",
         "push-dir": "^0.4.1"
+    },
+    "volta": {
+        "node": "15.11.0"
     }
 }
