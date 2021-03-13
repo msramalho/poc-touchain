@@ -24,19 +24,19 @@
         "short_description": "Touchain helps you visualize the links between people, institutions, former employers and career trajectories of civil servants.",
         "description": "TODO:",
         "expansion_instructions": {
-            "title": "TODO: Instructions",
+            "title": "Instructions",
             "question": "How?",
-            "content": "TODO:"
-        },
-        "expansion_about": {
-            "title": "TODO: About",
-            "question": "What?",
-            "content": "TODO:"
+            "content": "Search by a person or an institution. Double click on the results to expand the relations between entities."
         },
         "expansion_context": {
-            "title": "TODO: Context",
-            "question": "When?",
-            "content": "TODO:"
+            "title": "Context",
+            "question": "Why?",
+            "content": "The complex organizational structure of the European Union’s institutions is an entry barrier for [young] enthusiasts looking to explore the field. It also leaves room for misconceptions on the purpose of roles and agencies. The EU does make an effort to inform and keep its citizens up-to-date, but does so through a myriad of digital platforms and sources. Ironically, the approach adds a layer of opacity to the EU’s transparency efforts, limiting the efficiency of knowledge discovery, and providing no entry-point for newcomers, namely young people which are not familiar with the organizations at play."
+        },
+        "expansion_about": {
+            "title": "About",
+            "question": "What?",
+            "content": "In the current scenario, information is scattered between multiple websites in an unintelligible format that is not accessible to the layman. In order to solve this, Touchain aggregates data from multiple data sources to provide a centralized digital platform for discovering the work and people of the EU. Users can explore the fields of work, positions, and documents produced by each person, unit or agency of the union. They can also quickly visualize each institution's hierarchical structure, filtering people who work in their areas of interest and access their contacts and public social media information. This solution bridges the gap between people and the work of the EU institutions. Young people can consult the documents recently produced in their areas of interest and learn about the people and institutions that have been working in this area. Moreover, Touchain fosters the cooperation of people who work in different EU agencies and want to quickly and intuitively understand which colleagues to contact regarding a particular work area. "
         },
         "expansion_author": {
             "title": "Author",
