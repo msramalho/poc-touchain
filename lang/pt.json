@@ -81,8 +81,8 @@
              "title": "Disposição do grafo",
              "spaced": "Espaçado",
              "radial": "Radial",
-             "concentric": "Concêntrico",
-             "breadth": "Largura"
+             "concentric": "Concentric",
+             "breadth": "Breadth"
          },
          "other_actions": {
              "title": "Outras ações",
