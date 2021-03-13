@@ -54,15 +54,15 @@ export default {
         {
           selector: "node[label='PER']",
           style: {
-            "background-color": "#B2DFDB",
-            "border-color": "#009688"
+            "background-color": "#fff9c4",
+            "border-color": "#ffe500"
           }
         },
         {
           selector: "node[label='ORG']",
           style: {
-            "background-color": "#D1C4E9",
-            "border-color": "#673AB7"
+            "background-color": "#dbeefd",
+            "border-color": "#2196f3"
             // shape: "round-triangle"
           }
         },
@@ -87,7 +87,7 @@ export default {
           style: {
             width: 1,
             "curve-style": "haystack",
-            "line-color": "#FFCCBC",
+            "line-color": "#2a5898",
             "edge-text-rotation": "autorotate",
             "control-point-step-size": 40,
             width: function(edge) {
@@ -110,9 +110,9 @@ export default {
         {
           selector: "node[explored]",
           style: {
-            color: "#fff",
-            "background-color": "#FF8A65",
-            "border-color": "#DD2C00"
+            color: "#000",
+            "background-color": "#f5db82",
+            "border-color": "#154194"
           }
         },
         {
@@ -126,9 +126,9 @@ export default {
         {
           selector: "node.noticeMe",
           style: {
-            color: "#fff",
-            "background-color": "#00BFA5",
-            "border-color": "#1DE9B6",
+            color: "#373839",
+            "background-color": "#ececec",
+            "border-color": "#373839",
             "border-width": 5
           }
         }
@@ -326,7 +326,7 @@ export default {
   color: #fff;
 }
 .menuItem.cy-context-menus-cxt-menuitem:hover {
-  background-color: #009688;
+  background-color: #ffcc00;
 }
 .menuItem.cy-context-menus-cxt-menuitem.cy-context-menus-divider {
   border-bottom: 1px solid #e3e3e3;

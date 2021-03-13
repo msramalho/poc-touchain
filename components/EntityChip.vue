@@ -29,8 +29,8 @@ export default {
   },
   computed: {
     color: function() {
-      if(this.label == "PER") return "#009688"
-      if(this.label == "ORG") return "#673AB7"
+      if(this.label == "PER") return "#ffcc00"
+      if(this.label == "ORG") return "#2196f3"
       if(this.label == "LOC") return "#00B8D4"
       if(this.label == "MISC") return "#263238"
     },
