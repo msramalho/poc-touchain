@@ -1,6 +1,6 @@
 <template>
   <div class="holder">
-    <span class="animate-text">Touchain</span>
+    <v-img :src="logo" contain width="150"></v-img>
   </div>
 </template>
 
@@ -46,3 +46,14 @@
   transition: transform 0.5s;
 }
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      logo: require("../assets/touchain.png"),
+    };
+  },
+};
+</script>
+
