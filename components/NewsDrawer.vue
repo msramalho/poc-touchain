@@ -256,6 +256,7 @@ export default {
       }, 100);
     },
     getNewsIds(endpoint, params) {
+      return; //TODO: HARDCODED NOT TO BREAK
       if (this.loadingIds) return;
       this.loadingIds = true;
       this.newsIds = [];
