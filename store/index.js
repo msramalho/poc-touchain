@@ -1,7 +1,7 @@
 //store/index.js
 export const state = () => ({
     locales: ['en', 'pt'],
-    locale: 'pt'
+    locale: 'en'
 })
 
 export const mutations = {
