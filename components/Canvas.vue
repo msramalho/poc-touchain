@@ -19,13 +19,13 @@
       :countSelectedEdges="countSelectedEdges"
       :loadingCard="loading"
     />
-    <news-drawer
+    <!-- <news-drawer
       :show="(countSelectedNodes==1&&countSelectedEdges==0) || (countSelectedNodes==0&&countSelectedEdges==1)"
       :displayText="displayText"
       :selectedEdge="selectedEdge"
       :selectedNode="selectedNode"
       v-on:addEntity="selectEntity"
-    />
+    /> -->
   </div>
 </template>
 

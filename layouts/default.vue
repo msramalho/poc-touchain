@@ -35,11 +35,11 @@
         <span>{{ $t('default.change_lang') }}</span>
       </v-tooltip> -->
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-container class="pa-0 flex-grow-1" fluid fill-height>
         <nuxt />
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
