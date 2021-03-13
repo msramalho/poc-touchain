@@ -34,6 +34,7 @@ import FilterForm from "~/components/FilterForm.vue";
 import NetworkCanvas from "~/components/NetworkCanvas.vue";
 import NewsDrawer from "~/components/NewsDrawer.vue";
 import { saveAs } from "file-saver";
+import { filter, find } from "lodash";
 
 export default {
   data() {
@@ -49,7 +50,7 @@ export default {
       selectedEdge: undefined,
       selectedNode: undefined,
       doubleClicked: false,
-      displayText: ""
+      displayText: "",
     };
   },
   methods: {
@@ -62,7 +63,7 @@ export default {
       this.setListeners();
     },
     setListeners() {
-      this.cy.on("doubleClick", "node", e => this.expandEntity(e.target));
+      this.cy.on("doubleClick", "node", (e) => this.expandEntity(e.target));
       this.cy.on("select", "node", this.updateCountSelectedNodes);
       this.cy.on("unselect", "node", this.updateCountSelectedNodes);
       this.cy.on("select", "edge", this.updateCountSelectedEdges);
@@ -126,7 +127,7 @@ export default {
       else {
         this.range = {
           min: (range.min / 100) * diff,
-          max: (range.max / 100) * this.maxWeight
+          max: (range.max / 100) * this.maxWeight,
         };
       }
       this.filterEntities();
@@ -145,23 +146,23 @@ export default {
             from: e_from.id(),
             to: e_to.id(),
             limit: this.limit,
-            labels: this.selectedLabels.join()
-          }
+            labels: this.selectedLabels.join(),
+          },
         })
-        .then(res => {
-          let nodes = res.data.connections.map(n => this.entityToNode(n));
+        .then((res) => {
+          let nodes = res.data.connections.map((n) => this.entityToNode(n));
           let edges = res.data.connections.reduce((acc, r) => {
             return acc.concat([
               this.connectionToEdge({
                 from: e_from.id(),
                 to: r._id,
-                weight: r.from
+                weight: r.from,
               }),
               this.connectionToEdge({
                 from: r._id,
                 to: e_to.id(),
-                weight: r.to
-              })
+                weight: r.to,
+              }),
             ]);
           }, []);
           this.cy.startBatch();
@@ -184,12 +185,13 @@ export default {
           this.runLayout("cose", false);
           this.cy.nodes().unlock();
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
-          this.$toast.error(
-            this.$t("canvas.errors.communication"),
-            { x: "right", y: "bottom", timeout: 4000 }
-          );
+          this.$toast.error(this.$t("canvas.errors.communication"), {
+            x: "right",
+            y: "bottom",
+            timeout: 4000,
+          });
         })
         .finally(() => {
           this.loading = false;
@@ -205,11 +207,11 @@ export default {
       this.loading = true;
       this.$axios
         .get("/connection", { params: { from: e_from.id(), to: e_to.id() } })
-        .then(res => {
+        .then((res) => {
           let weight = res.data.weight;
-          let message = `${this.$t("canvas.no_direct_link")} ${e_from.data().text} ${this.$t("canvas.basic.and")} ${
-            e_to.data().text
-          }`;
+          let message = `${this.$t("canvas.no_direct_link")} ${
+            e_from.data().text
+          } ${this.$t("canvas.basic.and")} ${e_to.data().text}`;
           if (weight > 0) {
             message = `${this.$t("canvas.connection_found")} ${weight}`;
             try {
@@ -217,7 +219,7 @@ export default {
                 this.connectionToEdge({
                   from: e_from.id(),
                   to: e_to.id(),
-                  weight
+                  weight,
                 })
               );
             } catch (error) {}
@@ -228,12 +230,13 @@ export default {
           e_from.unselect();
           e_to.unselect();
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
-          this.$toast.error(
-            this.$t("canvas.errors.communication"),
-            { x: "right", y: "bottom", timeout: 4000 }
-          );
+          this.$toast.error(this.$t("canvas.errors.communication"), {
+            x: "right",
+            y: "bottom",
+            timeout: 4000,
+          });
         })
         .finally(() => {
           this.loading = false;
@@ -256,7 +259,7 @@ export default {
     },
     refreshEdgeWeight() {
       //calculate the max and min values for weight
-      let weights = this.cy.edges(":visible").map(e => e.data().weight);
+      let weights = this.cy.edges(":visible").map((e) => e.data().weight);
       this.minWeight = Math.min(...weights);
       this.maxWeight = Math.max(...weights);
     },
@@ -269,7 +272,9 @@ export default {
         );
         edgesWithin
           .connectedNodes()
-          .filter(node => this.selectedLabels.indexOf(node.data().label) != -1)
+          .filter(
+            (node) => this.selectedLabels.indexOf(node.data().label) != -1
+          )
           .show();
         edgesWithin.show();
         let edgesWithout = this.cy.$(
@@ -280,7 +285,7 @@ export default {
         edgesWithout
           .connectedNodes()
           .filter(
-            node =>
+            (node) =>
               !node.data("explored") &&
               node.data("highlight") != 1 &&
               !node.selected() &&
@@ -292,7 +297,9 @@ export default {
           .nodes(
             ":visible:unselected[^explored][highlight!=1], [[degree=0]][highlight!=1]"
           )
-          .filter(node => this.selectedLabels.indexOf(node.data().label) == -1)
+          .filter(
+            (node) => this.selectedLabels.indexOf(node.data().label) == -1
+          )
           .hide();
       }
       this.cy.endBatch();
@@ -308,6 +315,9 @@ export default {
       let sel = this.cy.$("node:selected");
       if (sel.length != 1) return;
       this.expandEntity(sel[0]);
+    },
+    findNode(id) {
+      return find(this.$db["nodes"], (o) => o._id == id);
     },
     expandEntity(e) {
       let el = this.cy.$id(e.id());
@@ -327,61 +337,55 @@ export default {
       if (this.loading) return;
       this.loading = true;
       this.doubleClicked = true;
-      this.$axios
-        .get("/expand", {
-          params: {
-            _id: e.id(),
-            limit: this.limit,
-            labels: this.selectedLabels.join()
-          }
-        })
-        .then(res => {
-          let nodes = res.data.connections.map(r => this.entityToNode(r));
-          let edges = res.data.connections.map(r =>
-            this.connectionToEdge({
-              from: e.id(),
-              to: r._id,
-              weight: r.weight
-            })
-          );
-          this.cy.startBatch();
-          {
-            //mark as explored before filtering
-            el.data("explored", true);
-            el.unselect();
-            //add nodes and edges to graph
-            this.cy.nodes().lock();
-            this.cy.add(nodes);
-            this.cy.add(edges);
 
-            this.refreshEdgeWeight();
+      let edgesFrom = filter(this.$db["edges"], (o) => o.from == e.id());
+      let edgesTo = filter(this.$db["edges"], (o) => o.to == e.id());
+      // console.log(edgesFrom);
+      // console.log(edgesTo);
 
-            //reload and filter before running layout for performance
-            // this.updateFilterRange(); //calls filterEntities after
-            // this.filterEntities();
-          }
-          this.cy.endBatch();
-          this.runLayout("fCose", false);
-          this.cy.nodes().unlock();
-          this.$toast.info(`${this.$t("canvas.nodes_found")} ${nodes.length}`, {
-            x: "right",
-            y: "bottom",
-            timeout: 4000
-          });
+      let nodesFrom = edgesFrom.map((e) => this.findNode(e.to));
+      let nodesTo = edgesTo.map((e) => this.findNode(e.from));
+
+      // console.log(nodesFrom);
+      // console.log(nodesTo);
+
+      let nodes = nodesFrom.concat(nodesTo).map((r) => this.entityToNode(r));
+      let edges = edgesFrom.concat(edgesTo).map((e) =>
+        this.connectionToEdge({
+          from: e.from,
+          to: e.to,
+          weight: 1,
         })
-        .catch(e => {
-          console.log(e);
-          this.$toast.error(
-            this.$t("canvas.errors.communication"),
-            { x: "right", y: "bottom", timeout: 4000 }
-          );
-        })
-        .finally(() => {
-          this.loading = false;
-          setTimeout(() => {
-            this.doubleClicked = false;
-          }, 500);
-        });
+      );
+
+      // console.log(nodes);
+      // console.log(edges);
+
+      this.cy.startBatch();
+      {
+        //mark as explored before filtering
+        el.data("explored", true);
+        el.unselect();
+        //add nodes and edges to graph
+        this.cy.nodes().lock();
+        this.cy.add(nodes);
+        this.cy.add(edges);
+
+        this.refreshEdgeWeight();
+      }
+      this.cy.endBatch();
+      this.runLayout("fCose", false);
+      this.cy.nodes().unlock();
+      // this.$toast.info(`Found ${nodes.length} connections`, {
+      //   x: "right",
+      //   y: "bottom",
+      //   timeout: 4000,
+      // });
+
+      this.loading = false;
+      setTimeout(() => {
+        this.doubleClicked = false;
+      }, 500);
     },
     runLayout(name, fit) {
       fit = fit || true;
@@ -397,7 +401,7 @@ export default {
 
         if (nodes.length > 0 && nodes[0].data("centrality") == null) {
           let centrality = this.cy.elements().closenessCentralityNormalized();
-          nodes.forEach(n => n.data("centrality", centrality.closeness(n)));
+          nodes.forEach((n) => n.data("centrality", centrality.closeness(n)));
         }
       };
       calculateCachedCentrality();
@@ -410,13 +414,13 @@ export default {
           fit: fit,
           padding: 200,
           nodeDimensionsIncludeLabels: true,
-          levelWidth: function(nodes) {
+          levelWidth: function (nodes) {
             // calculateCachedCentrality();
-            let min = nodes.min(n => n.data("centrality")).value;
-            let max = nodes.max(n => n.data("centrality")).value;
+            let min = nodes.min((n) => n.data("centrality")).value;
+            let max = nodes.max((n) => n.data("centrality")).value;
             return (max - min) / 5;
           },
-          concentric: function(node) {
+          concentric: function (node) {
             // return node
             //   .connectedEdges()
             //   .forEach(e => e.weigth)
@@ -426,7 +430,7 @@ export default {
           },
           sweep: (Math.PI * 2) / 3,
           clockwise: true,
-          startAngle: (Math.PI * 1) / 6
+          startAngle: (Math.PI * 1) / 6,
         })
         .run();
     },
@@ -442,7 +446,7 @@ export default {
           nodeDimensionsIncludeLabels: true,
           idealEdgeLength: 150,
           nodeRepulsion: 100000,
-          edgeElasticity: 0
+          edgeElasticity: 0,
           // nestingFactor: 1
           // idealEdgeLength: function(edge) {
           //   // Default is: 10
@@ -464,7 +468,7 @@ export default {
           idealEdgeLength: 120,
           nodeRepulsion: 100000,
           uniformNodeDimensions: true,
-          edgeElasticity: 0.025
+          edgeElasticity: 0.025,
         })
         .run();
     },
@@ -476,18 +480,17 @@ export default {
           animate: false,
           fit: fit,
           padding: 50,
-          nodeDimensionsIncludeLabels: true
+          nodeDimensionsIncludeLabels: true,
         })
         .run();
     },
     addNode(e) {
       let current = this.cy.$id(e.data.id);
       if (current.length) {
-        this.$toast.info(
-            this.$t("canvas.errors.repeated_entity"), {
+        this.$toast.info(this.$t("canvas.errors.repeated_entity"), {
           x: "right",
           y: "bottom",
-          timeout: 4000
+          timeout: 4000,
         });
         current.show(); //in case it is hidden
         this.focusOnNode(current);
@@ -507,8 +510,8 @@ export default {
           id: [c.from, c.to].sort().join(),
           source: c.from,
           target: c.to,
-          weight: c.weight
-        }
+          weight: c.weight,
+        },
       };
     },
     entityToNode(e) {
@@ -517,8 +520,8 @@ export default {
           // group: "nodes"
           id: e._id,
           label: e.label,
-          text: e.text
-        }
+          text: e.text,
+        },
       };
     },
     keydown(e) {
@@ -545,22 +548,26 @@ export default {
       saveAs(this.cy.png(), "poc-touchain.png");
     },
     downloadJson() {
-      let file = new File([JSON.stringify(this.cy.json())], "poc-touchain.json", {
-        type: "text/plain;charset=utf-8"
-      });
+      let file = new File(
+        [JSON.stringify(this.cy.json())],
+        "poc-touchain.json",
+        {
+          type: "text/plain;charset=utf-8",
+        }
+      );
       saveAs(file);
-    }
+    },
   },
-  created: function() {
+  created: function () {
     window.addEventListener("keydown", this.keydown);
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     window.removeEventListener("keydown", this.keydown);
   },
   components: {
     FilterForm,
     NetworkCanvas,
-    NewsDrawer
-  }
+    NewsDrawer,
+  },
 };
 </script>
